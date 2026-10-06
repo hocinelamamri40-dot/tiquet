@@ -1,15 +1,23 @@
 # Suivi des tickets HI Rungis
 
-Lancer `python server.py`, puis ouvrir http://localhost:5000.
+Application statique HTML, CSS et JavaScript, compatible avec Vercel sans API ni installation.
 
-Connexion : utilisateur `admin`, mot de passe `admin`. La session expire après 8 heures et se termine au redémarrage du serveur. Le bouton Déconnexion ferme la session.
+## Vercel
 
-Les tickets de l’onglet SUIVI CURATIF sont dans `data/tickets.json`. Les autres onglets et toutes les valeurs d’origine sont conservés dans `data/excel_archive.json`. Aucun moteur de base de données. Les écritures sont atomiques et sérialisées par le serveur. Un statut Excel vide est affiché « Ouvert ». Les tickets clos sont conservés et accessibles via le filtre.
+Importer ce dépôt avec Framework Preset : Other. Le fichier `vercel.json` configure le dossier de sortie `public` sans commande de build. Si le projet Vercel possède des réglages manuels, choisir Root Directory : racine du dépôt, Output Directory : public, et aucune commande de build. Redéployer après le push.
 
-L’application permet de consulter, ajouter, modifier et supprimer les tickets, de changer les dates, de rechercher et filtrer, et de télécharger le JSON. Sauvegardez régulièrement le dossier `data`. Application locale, accessible uniquement depuis cet ordinateur.
+## Connexion
 
-L’import initial utilise openpyxl : `python import_excel.py "chemin du fichier.xlsx"`. Il refuse d’écraser les tickets existants.
+Utilisateur : `admin`. Mot de passe : `admin`. Connexion d'interface uniquement : les identifiants sont dans le JavaScript et le JSON est public, comme demandé. La session est conservée dans l'onglet jusqu'à la déconnexion ou sa fermeture.
 
-Récapitulatif : choisissez les filtres puis cliquez sur Télécharger le PDF. Le fichier est téléchargé directement, avec tous les tickets filtrés, les totaux par statut et les commentaires.
+## Tickets
 
-Les dates et mentions de 2025 des tickets actifs ont été passées en 2026. Sauvegarde : `data/tickets.before-2026.json`. Les dates Excel originales et `excel_archive.json` sont conservées.
+Les données initiales sont dans `public/tickets.json`. Recherche, filtres, ajout, modification, suppression, export JSON et téléchargement direct du PDF fonctionnent dans le navigateur.
+
+Les modifications sont enregistrées dans le stockage local du navigateur. Elles ne sont pas synchronisées entre ordinateurs et ne modifient pas le fichier sur GitHub. Exportez le JSON pour sauvegarder vos modifications. Pour publier une nouvelle version des données pour tous, remplacez `public/tickets.json` puis redéployez. Les navigateurs ayant déjà des modifications locales conservent leur copie jusqu'à l'effacement des données du site.
+
+## Local
+
+Lancer `python server.py`, puis ouvrir http://localhost:5000. Python sert uniquement les fichiers statiques et n'est pas utilisé par Vercel.
+
+Les archives Excel et la sauvegarde d'origine restent dans `data`. L'import Excel existant écrit dans `data/tickets.json` : copier ensuite ce fichier vers `public/tickets.json` pour mettre à jour les données publiées.
